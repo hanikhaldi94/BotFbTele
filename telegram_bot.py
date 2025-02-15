@@ -1,7 +1,7 @@
 ﻿import telebot
 import os
 
-TELEGRAM_TOKEN = os.getenv("8019649579:AAGe88yRXrwq53ZrFLU5Mm7g67gRy-rV8Yk")
+TELEGRAM_TOKEN = os.getenv("TOKEN")
 
 if not TELEGRAM_TOKEN:
     print("🚨 خطأ: لم يتم العثور على توكن تيليجرام! تأكد من إضافته في متغيرات البيئة في Railway.")
