@@ -1,41 +1,43 @@
-try:
+import os
+import time
+import telebot
+from dotenv import load_dotenv
 
-    from dotenv import load_dotenv
+# تحميل متغيرات البيئة
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
 
-    import telebot
-    import os
+if not TOKEN:
+    raise ValueError("❌ لم يتم العثور على التوكن! تأكد من ضبط متغيرات البيئة.")
 
-    load_dotenv()
+bot = telebot.TeleBot(TOKEN)
 
-    TOKEN = os.getenv("TOKEN")
+# أمر البدء
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "👋 أهلاً بك! كيف يمكنني مساعدتك؟")
 
-# طباعة التوكن للتأكد أنه يتم تحميله
+# أمر المساعدة
+@bot.message_handler(commands=['help'])
+def send_help(message):
+    bot.reply_to(message, "📌 قائمة الأوامر المتاحة:\n/start - بدء البوت\n/help - المساعدة\n/info - معلومات عن البوت")
 
-    print("✅ تم تحميل توكن تيليجرام بنجاح!")
+# أمر المعلومات
+@bot.message_handler(commands=['info'])
+def send_info(message):
+    bot.reply_to(message, "🤖 هذا بوت تجريبي لمساعدتك في الأتمتة!")
 
+# الاستجابة لأي رسالة أخرى
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, f"📩 لقد أرسلت: {message.text}")
 
-# قراءة التوكن من متغيرات البيئة
-    TELEGRAM_TOKEN = os.getenv("TOKEN")  
+print("🤖 بوت تيليجرام قيد التشغيل...")
 
-    if not TELEGRAM_TOKEN:
-        print(f"🔍 قيمة `TOKEN` المسترجعة: {os.getenv('TOKEN')}")
-        print("🚨 خطأ: لم يتم العثور على توكن تيليجرام! تأكد من إضافته في متغيرات البيئة في Railway.")
-        print("🔍 تحقق: قائمة متغيرات البيئة المتاحة:")
-        print(os.environ)  # طباعة جميع المتغيرات البيئية لمعرفة إن كان `TOKEN` موجودًا
-        exit(1)  # إنهاء البرنامج إذا لم يتم العثور على التوكن
-
-    bot = telebot.TeleBot(TELEGRAM_TOKEN)
-
-    @bot.message_handler(commands=['start'])
-    def start(message):
-        bot.reply_to(message, "👋 أهلاً بك! هذا بوت تلقائي للنشر والردود.")
-
-    @bot.message_handler(commands=['post'])
-    def manual_post(message):
-        bot.reply_to(message, "🚀 سيتم نشر المنشور قريبًا...")
-
-    print("🤖 بوت تيليجرام قيد التشغيل...")
-
-    bot.polling(none_stop=True)
-except Exception as e:
-    print(f"🚨 حدث خطأ: {e}")
+# إعادة التشغيل التلقائي عند حدوث خطأ
+while True:
+    try:
+        bot.polling()
+    except Exception as e:
+        print(f"⚠️ خطأ: {e}. إعادة التشغيل بعد 5 ثوانٍ...")
+        time.sleep(5)
