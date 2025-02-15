@@ -2,7 +2,13 @@
 import os
 
 TELEGRAM_TOKEN = os.getenv("8019649579:AAGe88yRXrwq53ZrFLU5Mm7g67gRy-rV8Yk")
+
+if not TELEGRAM_TOKEN:
+    raise ValueError("🚨 خطأ: لم يتم العثور على توكن تيليجرام! تأكد من إضافته في متغيرات البيئة.")
+
+
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
