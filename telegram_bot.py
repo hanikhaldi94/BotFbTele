@@ -1,5 +1,16 @@
+
+from dotenv import load_dotenv
+
 import telebot
 import os
+
+load_dotenv()
+
+TOKEN = os.getenv("TOKEN")
+
+# طباعة التوكن للتأكد أنه يتم تحميله
+print(f"🔍 `TOKEN` بعد التحميل: {TOKEN}")
+
 
 # قراءة التوكن من متغيرات البيئة
 TELEGRAM_TOKEN = os.getenv("TOKEN")  
