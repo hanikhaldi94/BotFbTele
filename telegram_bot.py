@@ -38,7 +38,7 @@ print("🤖 بوت تيليجرام قيد التشغيل...")
 def main():
     while True:
         try:
-            bot.polling(none_stop=True, interval=1)
+            bot.polling(none_stop=True, timeout=30)
         except Exception as e:
             print(f"⚠️ خطأ: {e}\n{traceback.format_exc()}")
             print("🔄 إعادة تشغيل البوت بعد 5 ثوانٍ...")
