@@ -1,6 +1,7 @@
 import os
 import time
 import telebot
+import traceback
 from dotenv import load_dotenv
 
 # تحميل متغيرات البيئة
@@ -34,10 +35,14 @@ def echo_all(message):
 
 print("🤖 بوت تيليجرام قيد التشغيل...")
 
-# إعادة التشغيل التلقائي عند حدوث خطأ
-while True:
-    try:
-        bot.polling()
-    except Exception as e:
-        print(f"⚠️ خطأ: {e}. إعادة التشغيل بعد 5 ثوانٍ...")
-        time.sleep(5)
+def main():
+    while True:
+        try:
+            bot.polling(none_stop=True, interval=1)
+        except Exception as e:
+            print(f"⚠️ خطأ: {e}\n{traceback.format_exc()}")
+            print("🔄 إعادة تشغيل البوت بعد 5 ثوانٍ...")
+            time.sleep(5)
+
+if __name__ == "__main__":
+    main()
